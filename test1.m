@@ -33,6 +33,5 @@ low_freq_energy = sum(abs(S(low_freq, :)), 1);
 
 
 
-
 figure(2);
 
