@@ -27,7 +27,7 @@ title('spectrogram of unmodified audio')
 % foot or nod your head to)
 
 low_freq = F < 150;
-low_freq_energy = sum(ab(S(low_freq, :)), 1);
+low_freq_energy = sum(abs(S(low_freq, :)), 1);
 % isolated beats 
 [beats, loc] = findpeaks(low_freq_energy, "MinPeakDistance", Fs/2);
 
