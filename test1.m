@@ -26,12 +26,27 @@ title('spectrogram of unmodified audio')
 % which usually consists of drum and bass (the sound you would tap your
 % foot or nod your head to)
 
+% we want to look for a beat every ~ half a second
+for i = 1:length(T)
+    if T(i) > .5
+        interval = i;
+        break;
+    end
+end
+
+
 low_freq = F < 150;
 low_freq_energy = sum(abs(S(low_freq, :)), 1);
 % isolated beats 
-[beats, loc] = findpeaks(low_freq_energy, "MinPeakDistance", Fs/2);
+[beats, loc] = findpeaks(low_freq_energy, "MinPeakDistance", interval);
+
+beat_strength = mean(beats);
 
 
+% figure(2);
+% subplot(2,1,1);
+% spectrogram(x, N, overlap, nfft, Fs, 'yaxis');
+% title('spectrogram of unmodified audio')
+% subplot(2,1,2);
 
-figure(2);
 
