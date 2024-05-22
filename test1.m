@@ -40,13 +40,29 @@ low_freq_energy = sum(abs(S(low_freq, :)), 1);
 % isolated beats 
 [beats, loc] = findpeaks(low_freq_energy, "MinPeakDistance", interval);
 
-beat_strength = mean(beats);
+beat_strength = mean(beats); % beat strength
+
+%% display beats vs original spectrogram
+figure(2);
+subplot(3,1,1);
+imagesc(T, F, 20*log10(abs(S)));
+axis xy;
+title('spectrogram of unmodified audio')
+subplot(3,1,2);
+t = linspace(0,floor(duration), length(low_freq_energy));
+plot(t, low_freq_energy)
+title('beat energy throughout (only lower frequencies)')
+set(gca, 'xlim', [0, 332])
+subplot(3,1,3);
+display_beats = T;
+display_beats(:) = 0;
+for i = 1:length(loc)
+    display_beats(loc(i)) = beats(i); 
+end
+plot(t, display_beats)
+title('beats')
+set(gca, 'xlim', [0, 332])
 
 
-% figure(2);
-% subplot(2,1,1);
-% spectrogram(x, N, overlap, nfft, Fs, 'yaxis');
-% title('spectrogram of unmodified audio')
-% subplot(2,1,2);
-
+%% finding overall tempo
 
