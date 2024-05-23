@@ -2,6 +2,7 @@
 % danceability is how well a song can be danced to throughout the whole
 % duration
 [x,Fs] = audioread("Daft Punk - One More Time.wav");
+
 x = mean(x,2); % convert from stereo to mono
 duration = length(x) / Fs;
 minutes = floorDiv(duration,60);
@@ -52,7 +53,7 @@ subplot(3,1,2);
 t = linspace(0,floor(duration), length(low_freq_energy));
 plot(t, low_freq_energy)
 title('beat energy throughout (only lower frequencies)')
-set(gca, 'xlim', [0, 332])
+set(gca, 'xlim', [0, floor(duration)])
 subplot(3,1,3);
 display_beats = T;
 display_beats(:) = 0;
@@ -61,7 +62,7 @@ for i = 1:length(loc)
 end
 plot(t, display_beats)
 title('beats')
-set(gca, 'xlim', [0, 332])
+set(gca, 'xlim', [0, floor(duration)])
 
 
 %% finding overall tempo
@@ -72,4 +73,4 @@ set(gca, 'xlim', [0, 332])
 % finds peak to peak and converts difference in samples to time
 peak2peak = diff(loc)*t(2);
 meanpeak2peak = mean(peak2peak);
-BPM = 60/meanpeak2peak;
+BPM = 60/meanpeak2peak
