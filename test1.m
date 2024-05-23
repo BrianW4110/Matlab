@@ -16,7 +16,7 @@ nfft = 2^nextpow2(1024);
 figure(1);
 spectrogram(x, N, overlap, nfft, Fs, 'yaxis');
 title('spectrogram of unmodified audio')
-
+pause
 
 %% finding beat strength
 % beat strength is intensity of beats throughout a song
@@ -65,4 +65,11 @@ set(gca, 'xlim', [0, 332])
 
 
 %% finding overall tempo
+% interval is # of samples every .5 seconds
+% interval/2 will sample up to 240BPM
+[beats, loc] = findpeaks(low_freq_energy, "MinPeakDistance", interval/2);
 
+% finds peak to peak and converts difference in samples to time
+peak2peak = diff(loc)*t(2);
+meanpeak2peak = mean(peak2peak);
+BPM = 60/meanpeak2peak;
